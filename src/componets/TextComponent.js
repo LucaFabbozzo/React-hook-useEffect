@@ -3,13 +3,14 @@ import React, {useEffect, useState} from 'react'
 export const TextComponent = () => {
   const [user, setUser] = useState("Luca Fabbozzo");
   const [date, setDate] = useState("01-01-1998");
+  const [contador, setContador] = useState(0);
 
   const modUser = (e) => {
     setUser(e.target.value);
   };
 
   const cambiarFecha = (e) => {
-    setDate(new Date().toLocaleDateString());
+    setDate(new Date().getMilliseconds());
   };
 
   //is only executed once when loading the component
@@ -19,17 +20,18 @@ export const TextComponent = () => {
     );
   }, []);
 
-    //is only executed once when change the user
+    //is only executed once when change the user and the date
     useEffect(() => {
-      console.log(
-        "you have change the user!!"
-      );
-    }, [user]);
+
+      setContador(contador + 1)
+      console.log("you have change the user: " + contador);
+
+    }, [date, user]);
 
   return (
     <div>
       <h1>The effect: Hook useEffect</h1>
-      <strong className="label">{user}</strong>
+      <strong className={contador >= 10 ? 'label label-green' : 'label'}>{user}</strong>
       <strong>{date}</strong>
       <p>
         <input type="text" onChange={modUser} placeholder="Change the name" />
