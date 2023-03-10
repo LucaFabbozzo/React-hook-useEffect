@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
+import { AdviceComponent } from './AdviceComponent';
 
 export const TextComponent = () => {
   const [user, setUser] = useState("Luca Fabbozzo");
   const [date, setDate] = useState("01-01-1998");
-  const [contador, setContador] = useState(0);
+  const [counter, setCounter] = useState(0);
 
   const modUser = (e) => {
     setUser(e.target.value);
@@ -23,21 +24,23 @@ export const TextComponent = () => {
     //is only executed once when change the user and the date
     useEffect(() => {
 
-      setContador(contador + 1)
-      console.log("you have change the user: " + contador);
+      setCounter(counter + 1)
+      console.log("you have change the user: " + counter);
 
     }, [date, user]);
 
   return (
     <div>
       <h1>The effect: Hook useEffect</h1>
-      <strong className={contador >= 10 ? 'label label-green' : 'label'}>{user}</strong>
+      <strong className={counter >= 10 ? 'label label-green' : 'label'}>{user}</strong>
       <strong>{date}</strong>
       <p>
         <input type="text" onChange={modUser} placeholder="Change the name" />
 
         <button onClick={cambiarFecha}>Change date</button>
       </p>
+
+      { user === "LUCA" && <AdviceComponent />}
     </div>
   );
 }
