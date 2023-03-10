@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-
 export const AjaxComponent = () => {
 
 const [user, setUser] = useState([]);
@@ -31,23 +30,35 @@ const getStaticUser = () => {
     },
   ]);
 };
-
-useEffect(() => {
-  getStaticUser();
-}, []);
+  
+  const getUserAjaxPms = () => {
+    fetch("https://reqres.in/api/users?page=2")
+      .then(response => response.json())
+      .then(final_result => {
+        setUser(final_result.data);
+        console.log(user);
+      },
+        error => {
+          console.log(error);
+      })
+  }
+  
+  useEffect(() => {
+    getUserAjaxPms();
+  }, []);
 
 
   return (
     <div>
       <h2>User list via Ajax</h2>
-      <ol className='users'>
+      <ul className='users'>
         {
           user.map(user => {
             console.log(user);
             return <li key={user.id}>{user.first_name} {user.last_name}</li>
           })
         }
-      </ol> 
+      </ul> 
     </div>
   )
 }
