@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 export const AjaxComponent = () => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   //Generic / basic
   // const getStaticUser = () => {
@@ -45,13 +46,20 @@ export const AjaxComponent = () => {
 
   const getUserAjaxAW = () => {
 
-    setTimeout(async() => {
-      const request = await fetch("https://reqres.in/api/users?page=2");
-      const { data } = await request.json();
+    setTimeout(async () => {
+      try {
+        const request = await fetch("https://reqres.in/api/users?page=2");
+        const { data } = await request.json();
 
-      setUser(data);
-      setLoading(false);
-    }, 2000)
+        setUser(data);
+        setLoading(false);
+
+      } catch (error) {
+        console.log(error.message);
+        setError(error.message);
+      }
+
+    }, 1000)
   };
 
   useEffect(() => {
@@ -60,11 +68,13 @@ export const AjaxComponent = () => {
     getUserAjaxAW();
   }, []);
 
-
-  if (loading === true) {
+  if (error !== "") {
+    //when there is a error
+     return <div className="error">{error}...</div>;
+  } else if(loading === true) {
     //when loading
     return <div className="loading">Loading data...</div>;
-  } else {
+  } else if(loading === false && error === ""){
     //when everything went well
     return (
       <div>
